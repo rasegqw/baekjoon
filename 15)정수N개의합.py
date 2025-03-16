@@ -5,3 +5,5 @@ def solve(a):
         ans += a[i]
 
     return ans
+
+# sum(a)

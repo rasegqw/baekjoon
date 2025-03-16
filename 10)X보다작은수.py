@@ -2,6 +2,7 @@ NX = input()
 num = NX.split(" ")
 N = int(num[0])
 X = int(num[1])
+# map
 
 AAA = input()
 A = AAA.split(" ")
@@ -23,3 +24,5 @@ for i in range(len(A)):
         ANS.append(A[i])
 
 print(' '.join(ANS)) 
+
+# print(ans[i], end='') end='' ---> ' '로 붙이기 
