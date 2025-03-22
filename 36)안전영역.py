@@ -29,7 +29,7 @@ for k in range(N):
 
     for i in range(len(Land)):
         for j in range(len(Land[i])):
-            if Land[i][j] > k and not visited[i][j]:
+            if not visited[i][j] and Land[i][j] > k :
                 fourD(j, i, k)
                 count +=1
 
