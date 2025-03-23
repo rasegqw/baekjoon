@@ -1,37 +1,43 @@
 N = input()
+
 stack = []
+result = 0
+
 
 for i in N:
-    if i == '(' or i == '[':
-        stack.append(i)
+    if i == '(':
+        stack.append('(')
 
-    elif i == ')':
-        tmp = 0
+    elif i ==')':
+
+        result = 0
         while stack:
             top = stack.pop()
             if top == '(':
-                stack.append(2 if tmp == 0 else 2 * tmp)
+                stack.append(2 if result == 0 else 2 * result)
                 break
             elif isinstance(top, int):
-                tmp += top
+                result += top
             else:
-                # 올바르지 않은 괄호
                 print(0)
                 exit()
         else:
-            # 괄호가 닫히지 않은 경우
             print(0)
             exit()
 
-    elif i == ']':
-        tmp = 0
+
+    elif i=='[':
+        stack.append('[')
+
+    else:
+        result = 0
         while stack:
             top = stack.pop()
             if top == '[':
-                stack.append(3 if tmp == 0 else 3 * tmp)
+                stack.append(3 if result == 0 else 3 * result)
                 break
             elif isinstance(top, int):
-                tmp += top
+                result += top
             else:
                 print(0)
                 exit()
@@ -39,10 +45,9 @@ for i in N:
             print(0)
             exit()
 
-# 최종 스택 검사: 숫자만 남아있어야 함
-for s in stack:
-    if not isinstance(s, int):
+for i in stack:
+    if not isinstance(i, int):
         print(0)
         exit()
-
+        
 print(sum(stack))
