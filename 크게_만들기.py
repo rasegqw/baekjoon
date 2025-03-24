@@ -1,32 +1,55 @@
+import sys
+input = sys.stdin.readline
+
 N, K = map(int, input().split())
 
-a = input()
-stack = [None] * N
+num = input().strip()
 
-for i in range(len(a)):
-    stack[i] = int(a[i])
+stack = []
+real_K = K
 
-start = 0
+for i in range(N):
 
-while len(stack) != N-K:
-    if stack[start] > stack[start+1] :
-        stack.pop(start+1)
-    elif stack[start] < stack[start+1] :
-        stack.pop(start)
-    else:
-        start += 2
+    while K!=0 and stack:
+        if stack[-1] < num[i]:
+            stack.pop()
+            K-=1
+            if K == 0 :
+                break
+        else:
+            break
+    
+    stack.append(num[i])
 
-ans =''
-for i in stack:
-    ans += str(i)
+# 남은 제거 횟수(K)가 있다면 스택 뒤쪽에서 K개를 제거
+result = stack[:-K] if K else stack
 
-print(ans)
+print(''.join(result))
+
+
+# start = 0
+
+# while len(num) != N-K:
+#     if num[start] > num[start+1] :
+#         num.pop(start+1)
+#     elif num[start] < num[start+1] :
+#         num.pop(start)
+#     else:
+#         start += 2
+
+# ans =''
+# for i in num:
+#     ans += str(i)
+
+# print(ans)
 
 # while count != K:
-#     max_index = stack.index(max(stack[start:N-K+count+1:1]))
+#     max_index = num.index(max(num[start:N-K+count+1:1]))
 
 #     for i in range(max_index):
-#         stack.pop(i)
+#         num.pop(i)
 #         count += 1
     
 #     start += 1
+
+

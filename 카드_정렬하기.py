@@ -9,7 +9,7 @@ for i in range(N):
     H[i] = int(sys.stdin.readline())
 
 if N == 1:
-    print(H[0])
+    print(0)
 
 else:
     heapq.heapify(H)

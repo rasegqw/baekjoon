@@ -1,10 +1,30 @@
-import sys
+# try 1
 
-N = int(input())
+# import sys
 
-stack = list(map(int, sys.stdin.readline().strip().split()))
+# N = int(input())
 
-ans = ['0'] * N
+# stack = list(map(int, sys.stdin.readline().strip().split()))
+
+
+# ans = []
+# for i in range(N-1, 0, -1):
+#     for j in range(i-1, -1, -1):
+#         if stack[j]>stack[i]:
+#             ans.append(j+1)
+#             break
+#         elif j == 0:
+#             ans.append(0)
+
+# ans.append(0)
+
+# print(*ans[::-1])
+
+
+
+# try 2
+
+# ans = ['0'] * N
 
 # 내꺼
 # start = N - 1
@@ -24,16 +44,26 @@ ans = ['0'] * N
 # print(A)
 
 
-# gpt
-index_stack = []
+# try 3
 
-for i in range(N - 1, -1, -1):
-    while index_stack and stack[i] >= stack[index_stack[-1]]:
-        index_stack.pop()
-    
-    if index_stack:
-        ans[i] = str(index_stack[-1] + 1)  # 1-based index
+import sys
 
-    index_stack.append(i)
+input = sys.stdin.readline
+N = int(input())
+top = list(map(int, input().split()))
 
-print(' '.join(ans))
+stack = []  
+ans = [0] * N
+
+for i in range(N):
+    while stack and stack[-1][1] <= top[i]:
+        stack.pop()
+    if stack:
+        ans[i] = stack[-1][0] + 1  
+    stack.append((i, top[i]))
+
+print(*ans)
+
+
+
+
