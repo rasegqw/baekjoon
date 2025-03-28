@@ -33,15 +33,6 @@
 N = int(input())
 A = list(map(int, input().split()))
 
-# dp = [1] * N  # 모든 원소는 최소 1개의 부분 수열을 만듦
-
-# for i in range(1, N):
-#     for j in range(i):
-#         if A[j] < A[i]:
-#             dp[i] = max(dp[i], dp[j] + 1)
-
-# print(max(dp))
-
 ans_list = [A[0]]
 
 for i in range(1, N):
@@ -53,6 +44,14 @@ for i in range(1, N):
             if j == len(ans_list)-1:
                 ans_list.append(A[i])
             continue
-            # ans_list.append(A[i])
 
 print(len(ans_list))
+# dp = [1] * N  # 모든 원소는 최소 1개의 부분 수열을 만듦
+
+# for i in range(1, N):
+#     for j in range(i):
+#         if A[j] < A[i]:
+#             dp[i] = max(dp[i], dp[j] + 1)
+
+# print(max(dp))
+            # ans_list.append(A[i])

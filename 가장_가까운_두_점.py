@@ -38,15 +38,15 @@ def closest_pair(points_x, points_y):
         return brute_force(points_x)
     
     mid = n // 2
-    mid_x = points_x[mid][0]
+    mid_x = points_x[mid][0]            # 얘는 Left와 Right의 점들간의 거리 체크해주는 놈
     
     left_x = points_x[:mid]
     right_x = points_x[mid:]
 
-    # 🔧 좌우 Y 분할 수정
+    # 좌우 Y 분할 수정
     left_y = []
     right_y = []
-    left_set = set(left_x)
+    left_set = set(left_x)  # 이거 왜하는거임?
     for p in points_y:
         if p in left_set:
             left_y.append(p)
@@ -62,7 +62,7 @@ def closest_pair(points_x, points_y):
 
     # 최소 거리 계산
     for i in range(len(strip)):
-        for j in range(i + 1, min(i + 7, len(strip))):
+        for j in range(i + 1, min(i + 7, len(strip))):              # 여기서 i+7이 의미하는 바는, 최대 6개만 비교해봐도 된대(Packing density)
             if strip[i] == strip[j]:
                 return 0
             d = min(d, distance(strip[i], strip[j]))
