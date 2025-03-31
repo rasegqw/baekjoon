@@ -1,35 +1,41 @@
+import sys
+sys.setrecursionlimit(10**5)
+input = sys.stdin.readline
+
 N = int(input())
+a = input().strip()
+place = [0] + list(map(int, a))  # 1-based index
 
-a = input()
-place = [0]
+graph = [[] for _ in range(N + 1)]
+for _ in range(N - 1):
+    u, v = map(int, input().split())
+    graph[u].append(v)
+    graph[v].append(u)
 
-for i in a:
-    place.append(int(i))
+visited = [False] * (N + 1)
+answer = 0
 
-edge = [ [] for _ in range(N+1)]
+def dfs(node):
+    visited[node] = True
+    indoor_count = 0  # 실내 노드 개수 카운트
 
-for _ in range(N-1):
-    A, B = map(int, input().split())
+    for neighbor in graph[node]:
+        if place[neighbor] == 1:  # 연결된 실내 노드 찾기
+            indoor_count += 1
+        elif not visited[neighbor]:  # 실외 노드라면 DFS 계속 탐색
+            indoor_count += dfs(neighbor)
 
-    edge[A].append(B)
-    edge[B].append(A)    
+    return indoor_count
 
-cur = []
-count = 0
-for i in range(1, N+1):
-    if place[i] == 0:
-        continue
-    cur.append(i)
-    visited = []
-    while cur:
-        a = cur.pop()
-        visited.append(a)
-        for j in edge[a]:
-            if j in visited:
-                continue
-            if place[j] == 1:
-                count += 1
-            else:
-                cur.append(j)
+for i in range(1, N + 1):
+    if place[i] == 0 and not visited[i]:  # 실외 노드에서 탐색
+        cnt = dfs(i)
+        answer += cnt * (cnt - 1)  # 가능한 모든 (i, j) 경우의 수 추가
 
-print(count)
+for i in range(1, N + 1):
+    if place[i] == 1:
+        for j in graph[i]:
+            if place[j] == 1:  # 실내-실내 직접 연결된 경우
+                answer += 1  # 중복 방지 X (모든 간선 체크 필요)
+
+print(answer)
