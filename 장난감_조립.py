@@ -1,64 +1,74 @@
-# from collections import deque
+# from collections import deque, defaultdict
+# import sys
+# input = sys.stdin.readline
 
 # N = int(input())
-
 # M = int(input())
 
-# qnvna = [[0 for _ in range(N+1)]] * (N+1)
+# Toy = defaultdict(list)  # 제품 조립에 필요한 부품 정보 저장
+# in_degree = [0] * (N+1)  # 진입 차수 저장
+# needs = [defaultdict(int) for _ in range(N+1)]  # 필요한 기본 부품 개수 저장
 
-# for i in range(M):
-#     x, y, z = map(int, input().split())
-#     qnvna[x][y] = z
+# for _ in range(M):
+#     x, y, k = map(int, input().split())
+#     Toy[y].append((x, k))
+#     in_degree[x] += 1  # 진입 차수 증가
 
-# collect = deque([N, 1])
-# count = 0
-# while collect:
-#     now, mul_count = collect.popleft()
-#     for i in range(1, N+1):
-#         if qnvna[now][i] == 0:
-#             continue
-#         else:            
-#             count_collect = mul_count * qnvna[now][i]
-            
-#             collect.append([i, count_collect])
+# queue = deque()
+# for i in range(1, N+1):
+#     if in_degree[i] == 0:  # 진입 차수가 0이면 기본 부품
+#         queue.append(i)
+
+# needs[N][N] = 1  # 최종 제품 1개 필요
+
+# while queue:
+#     now = queue.popleft()
+    
+#     for next_part, count in Toy[now]:
+#         if not needs[now]:  # 기본 부품이면
+#             needs[next_part][now] += count
+#         else:  # 중간 부품이면 기본 부품 개수 누적
+#             for key, val in needs[now].items():
+#                 needs[next_part][key] += val * count
+        
+#         in_degree[next_part] -= 1
+#         if in_degree[next_part] == 0:
+#             queue.append(next_part)
+
+# for part in sorted(needs[N].keys())[:-1:]:
+#     print(part, needs[N][part])
 
 
 from collections import deque
+import sys
+input = sys.stdin.readline
 
-N = int(input())  # 부품 개수
-M = int(input())  # 관계 개수
+N = int(input())
+M = int(input())
 
-graph = [[] for _ in range(N+1)]
-indegree = [0] * (N+1)
+Toy = [0 for _ in range(N+1)]
 
-# 각 부품을 만들기 위해 필요한 부품 정보 저장
 for _ in range(M):
-    x, y, k = map(int, input().split())
-    graph[y].append((x, k))  # y를 사용해서 x를 만듬
-    indegree[x] += 1
+    x, y ,k = map(int, input().split())
+    if type(Toy[x]) == int:
+        Toy[x] = []
+    Toy[x].append([y, k])
 
-# dp[i][j]: i를 만들기 위해 j가 몇 개 필요한가
-dp = [[0] * (N+1) for _ in range(N+1)]
-
-q = deque()
-
-# 기초 부품은 indegree가 0
 for i in range(1, N+1):
-    if indegree[i] == 0:
-        q.append(i)
-        dp[i][i] = 1  # 자기 자신 1개 필요
+    if not Toy[i]:
+        Toy[i] = 0
 
-while q:
-    now = q.popleft()
-    for next, count in graph[now]:
-        # 다음 부품을 만들기 위해 현재 부품의 기초 부품 수를 누적
-        for i in range(1, N+1):
-            dp[next][i] += dp[now][i] * count
-        indegree[next] -= 1
-        if indegree[next] == 0:
-            q.append(next)
+que = deque([[N, 1]])
 
-# 완제품 N번을 만들기 위해 필요한 기초 부품만 출력
+while que:
+    x, num = que.popleft()
+    
+    for i, count in Toy[x]:
+        if type(Toy[i]) == int:
+            Toy[i] += num*count
+            continue
+        que.append([i, num*count])
+
 for i in range(1, N+1):
-    if dp[N][i] > 0:
-        print(i, dp[N][i])
+    if type(Toy[i]) == int:
+        print(f'{i} {Toy[i]}')

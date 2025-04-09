@@ -18,7 +18,6 @@ for _ in range(K):
     que = deque([a])
     Black.add(a)
     visited = [False] * (V+1)
-    idx = 0
 
     while que:
         x = que.popleft()
