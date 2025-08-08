@@ -1,31 +1,38 @@
 import sys
 
 input = sys.stdin.readline
-N = int(input())
 
-City = [list(map(int, input().split())) for _ in range(N)]
+n = int(input())
+world = []
 
-min_cost = float('inf')  # 최소 비용 저장 변수
-visited = [False] * N  # 방문한 도시 체크
+visited = [False] * n
+min_res = 1 << 24
 
-def tsp(cur_city, count, total_cost, start_city):
-    global min_cost
+for i in range(n):
+    x = list(map(int, input().split()))
+    world.append(x)
 
-    if count == N:  # 모든 도시 방문 완료
-        if City[cur_city][start_city] != 0:  # 시작점으로 돌아갈 수 있는 경우
-            min_cost = min(min_cost, total_cost + City[cur_city][start_city])
+
+def backtrace(start, now, cnt, cost_sum):
+    global min_res
+
+    if cost_sum > min_res:
         return
+    
+    if cnt == n and world[now][start] != 0:
+        cost_sum += world[now][start]
+        min_res = min(min_res, cost_sum)
+        return 
 
-    for next_city in range(N):
-        if not visited[next_city] and City[cur_city][next_city] != 0:
-            visited[next_city] = True
-            tsp(next_city, count + 1, total_cost + City[cur_city][next_city], start_city)
-            visited[next_city] = False  # 백트래킹
+    for next in range(n):
+        if visited[next] == False and world[now][next] != 0:
+            visited[next] = True
+            backtrace(start, next, cnt+1, cost_sum + world[now][next])
+            visited[next] = False
 
-# 모든 도시에서 출발하는 경우를 고려
-for start in range(N):
-    visited[start] = True
-    tsp(start, 1, 0, start)
-    visited[start] = False  # 다음 출발점 고려
+for i in range(n):
+    visited[i] = True
+    backtrace(i, i, 1, 0)
+    visited[i] = False
 
-print(min_cost)
+print(min_res)
