@@ -1,24 +1,34 @@
 import sys
 
-N = int(input())
-nums = list(map(int, sys.stdin.readline().split()))
-nums.sort()
+input = sys.stdin.readline
 
-left = 0
-right = N - 1
-min_sum = float('inf')
-answer = (0, 0)
+n = int(input())
 
-while left < right:
-    total = nums[left] + nums[right]
+liquids = list(map(int, input().split()))
+liquids.sort()
 
-    if abs(total) < min_sum:
-        min_sum = abs(total)
-        answer = (nums[left], nums[right])
+left, right = 0, n-1
 
-    if total < 0:
-        left += 1
-    else:
-        right -= 1
+res = []
+abs_add_two = 1 << 30
 
-print(answer[0], answer[1])
+if liquids[-1] <= 0:
+    print(liquids[-2], liquids[-1])
+elif liquids[0] >= 0:
+    print(liquids[0], liquids[1])
+else:
+    while left < right:
+        result = liquids[left] + liquids[right]
+
+        if abs(result) < abs_add_two:
+            res = [liquids[left], liquids[right]]
+            abs_add_two = abs(result)
+        
+        if result > 0:
+            right -= 1
+        elif result < 0:
+            left += 1
+        else:
+            break
+
+    print(res[0], res[1])
