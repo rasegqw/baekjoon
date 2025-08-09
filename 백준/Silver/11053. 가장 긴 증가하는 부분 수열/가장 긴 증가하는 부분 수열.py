@@ -1,12 +1,18 @@
-N = int(input())
+import sys
+input = sys.stdin.readline
 
+n = int(input())
 nums = list(map(int, input().split()))
 
-dp = [1] * N
+res = 0
+dp = [nums[0]]
 
-for i in range(1, N):
-    for j in range(i):
-        if nums[j] < nums[i]:
-            dp[i] = max(dp[i], dp[j] + 1)
+for num in nums[1:]:
+    for i in range(len(dp)):
+        if num <= dp[i]:
+            dp[i] = num
+            break
+    if i == len(dp) - 1 and dp[i] != num:
+        dp.append(num)
 
-print(max(dp))
+print(len(dp))
