@@ -1,15 +1,22 @@
-N, S = map(int, input().split())
+import sys
 
-Nums = list(map(int, input().split()))
-count = 0
+input = sys.stdin.readline
 
-for bit in range(1, 1<<N):
+N, target = map(int, input().split())
+
+nums = list(map(int, input().split()))
+
+bit = 1
+cnt = 0
+
+while bit < 1<<N:
     sum = 0
     for i in range(N):
         if bit & (1<<i):
-            sum += Nums[i]
-    if sum == S:
-        count += 1
-            
+            sum += nums[i]
 
-print(count)
+    if sum == target:
+        cnt += 1
+    bit += 1
+
+print(cnt)
