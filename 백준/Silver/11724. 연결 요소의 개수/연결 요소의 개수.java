@@ -32,8 +32,6 @@ public class Main {
             union[i] = i + 1;
         }
 
-        List<int[]> edges = new ArrayList<>();
-
         for (int i = 0; i < M ; i++) {
             st = new StringTokenizer(br.readLine());
 
@@ -41,12 +39,6 @@ public class Main {
             edge[0] = Integer.parseInt(st.nextToken());
             edge[1] = Integer.parseInt(st.nextToken());
 
-            edges.add(edge);
-        }
-        // System.out.println(edges.stream().map(Arrays::toString).toList());
-
-        for (int i = 0; i < M ; i++) {
-            int[] edge = edges.get(i);
             if (edge[0] < edge[1]) {
                 union = UnionFind(union, edge[0], edge[1]);
             }
@@ -54,13 +46,14 @@ public class Main {
                 union = UnionFind(union, edge[1], edge[0]);
             }
         }
+        // System.out.println(edges.stream().map(Arrays::toString).toList());
 
-        StringBuilder res = new StringBuilder();
+        // StringBuilder res = new StringBuilder();
 
-        for (int i = 0; i<N; i++) {
-            res.append(union[i]+" ");
+        // for (int i = 0; i<N; i++) {
+        //     res.append(union[i]+" ");
 
-        }
+        // }
         // System.out.println(res);
 
         Set<Integer> res_set = Arrays.stream(union).boxed().collect(Collectors.toSet());
