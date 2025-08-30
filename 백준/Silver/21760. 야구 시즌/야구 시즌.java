@@ -3,30 +3,38 @@ import java.util.*;
 
 public class Main {
 
-    public static int cntMatch(int N, int M, int k, int D) {
-        int league_cnt = 0;
-        int another_league_cnt = 1;
+    public static long cntMatch(int N, int M, int k, int D) {
+        long league_cnt = 0;
+        long another_league_cnt = (long)(Math.pow(M, 2));
 
-        int min_res = 0;
-        int res = 0;
-        for (int i = 1; i<M; i++) {
-            league_cnt += i;
+        if ((N-1)%2 == 0) {
+            another_league_cnt *= N*((N-1)/2);
+        } else {
+            another_league_cnt *= N*((N-1)/2) + N/2;
         }
-        for (int i = 0; i<N; i++) {
-            another_league_cnt *= M;
+
+        long min_res = 0;
+        long res = 0;
+
+        if ((M-1)%2 == 0) {
+            league_cnt = M * ((M-1)/2);
         }
+        else {
+            league_cnt = M * ((M-1)/2) + M/2;
+        }
+        
         // System.out.println("L,A : "+league_cnt+" "+another_league_cnt);
-
-        int B = 1;
-        int A = k * B;
+        
+        long B = 1;
+        long A = k * B;
         while (res < D) {
             res = A*league_cnt*N + B*another_league_cnt;
-            // System.out.println("res : "+res);
-            if (res <= D) min_res = res;
+            if (res <= D && res > 0) min_res = res;
             else break;
             B++;
             A = k*B;
         }
+        // System.out.println("B : "+(B-1));
         if (min_res == 0) min_res = -1;
         return min_res;
     }
