@@ -2,17 +2,13 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-
-    int[] dx = new int[]{1, -1, 0, 0};
-    int[] dy = new int[]{0, 0, 1, -1};
-
-
+    
+    static int[] dx = new int[]{1, -1, 0, 0};
+    static int[] dy = new int[]{0, 0, 1, -1};
+    
     public static int count(boolean[][] visited, int N, int cnt) {
         
         Deque<int[]> cur = new ArrayDeque<>();
-
-        int[] dx = new int[]{1, -1, 0, 0};
-        int[] dy = new int[]{0, 0, 1, -1};
 
         for (int i = 0; i<N; i++) {
             for (int j = 0; j<N; j++) {
@@ -53,9 +49,6 @@ public class Main {
         for (int i = 0; i<N; i++) {
             visited[i] = board[i].clone();
         }
-        
-        int[] dx = new int[]{1, -1, 0, 0};
-        int[] dy = new int[]{0, 0, 1, -1};
 
         int[] xy = new int[2];
         xy[0] = y;
