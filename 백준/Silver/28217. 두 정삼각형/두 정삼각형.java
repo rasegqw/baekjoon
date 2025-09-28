@@ -5,24 +5,33 @@ public class Main {
 
     public static List<int[]> Daching (List<int[]> target, int N) {
 
+        List<int[]> cmpTri = new ArrayList<>();
+
+        for (int i = 0; i<N; i++) {
+            int[] newRow = new int[i+1];
+            cmpTri.add(newRow);
+        }
+
         for (int i = 0; i<N; i++) {
             int[] row = target.get(i);
+            int[] newRow = cmpTri.get(i);
+
             int len = row.length;
             
-            for (int j = 0; j<len/2; j++) {
+            for (int j = 0; j<=len/2; j++) {
                 int x = row[j];
                 int y = row[len-1-j];
                 
-                row[len-1-j] = x;
-                row[j] = y;
+                newRow[len-1-j] = x;
+                newRow[j] = y;
             }
         }
 
         // for (int i = 0; i<N; i++) {
-        //     System.out.println(Arrays.toString(target.get(i)));
+        //     System.out.println(Arrays.toString(cmpTri.get(i)));
         // }
 
-        return target;
+        return cmpTri;
     }
 
     public static List<int[]> Turn (List<int[]> target, int N) {
@@ -47,7 +56,6 @@ public class Main {
         // for (int i = 0; i<N; i++) {
         //     System.out.println(Arrays.toString(newTri.get(i)));
         // }
-
 
         return newTri;
     }
@@ -84,28 +92,28 @@ public class Main {
         
         for (int i = 0; i<3; i++) {
             int cnt = 0;
-
-            triangle2 = Turn(triangle2, N);
+            
+            List<int[]> cmpTri = Daching(triangle2, N);
             int row = 0;
-
+            
             while (row < N) {
-                int[] cmpRow = triangle2.get(row);
+                int[] cmpRow = cmpTri.get(row);
                 int[] initRow = triangle1.get(row);
-
+                
                 for (int j = 0; j<cmpRow.length; j++) {
                     if (cmpRow[j] != initRow[j]) cnt++;
                 }
                 row++;
             }
-
+            
             min = min>cnt ? cnt:min;
-
+            
             // System.out.println(min);
+            triangle2 = Turn(triangle2, N);
             cnt = 0;
-
-            triangle2 = Daching(triangle2, N);
+            
             row = 0;
-
+            
             while (row < N) {
                 int[] cmpRow = triangle2.get(row);
                 int[] initRow = triangle1.get(row);
